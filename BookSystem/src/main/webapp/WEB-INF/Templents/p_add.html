@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员中心</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <script type="text/javascript" src="js/libs/modernizr.min.js"></script>
+</head>
+<body>
+<div class="topbar-wrap white">
+    <!--<div class="topbar-inner clearfix">-->
+        <div class="topbar-logo-wrap clearfix">
+            <h1 class="topbar-logo none"><a href="index.html" class="navbar-brand">管理员中心</a></h1>
+        </div>
+    </div>
+</div>
+<div class="container clearfix">
+    <div class="sidebar-wrap">
+        <div class="sidebar-title">
+            <h1>菜单</h1>
+        </div>
+        <div class="sidebar-content">
+            <ul class="sidebar-list">
+                <li>
+                    <a href="#"><i class="icon-font">&#xe003;</i>图书管理</a>
+                    <ul class="sub-menu">
+                        <li><a href="overquery"><i class="icon-font">&#xe008;</i>图书列表</a></li>
+                        <li><a href="queryadd"><i class="icon-font">&#xe005;</i>添加图书</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="icon-font">&#xe018;</i>系统管理</a>
+                    <ul class="sub-menu">
+                        <li><a href="#"><i class="icon-font">&#xe017;</i>系统设置</a></li>
+                        <li><a href="#"><i class="icon-font">&#xe037;</i>清理缓存</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--/sidebar-->
+    <div class="main-wrap">
+
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="#" color="#white">添加图书</a><span class="crumb-step"></span><span class="crumb-name"></span></div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-content">
+                <form action="addinfo" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                    <table class="insert-tab" width="100%">
+                        <tbody>
+                        	<tr>
+                                <th><i class="require-red">*</i>书名：</th>
+                                <td >
+                                    <input class="common-text required" id="title" size="50" name="bname" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>价格：</th>
+                                <td>
+                                    <input class="common-text required" id="title" size="50" name="price" type="text">
+                                </td>
+                            </tr>
+	                      	<tr>
+	                            <th width="120"><i class="require-red">*</i>类型：</th>
+	                            <td>
+	                                <select id="catid" class="required" name="tid">
+	                                    <option value="18">请选择</option>
+                                        <option th:each="t:${typelist}" th:value="${t.btid}" th:text="${t.btname}">运动健身</option>
+	                                    <option value="20" th:remove="all">旅游</option>
+	                                    <option value="21" th:remove="all">文学艺术</option>
+	                                    <option value="22" th:remove="all">演讲</option>
+	                                    <option value="23" th:remove="all">经济</option>
+	                                    <option value="24" th:remove="all">电影</option>
+	                                    <option value="25" th:remove="all">科技</option>
+	                                    <option value="26" th:remove="all">美食</option>
+	                                </select>
+	                            </td>
+	                        </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>出版时间：</th>
+                                <td>
+                                    <input class="common-text required" id="title" size="50" name="time" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>图片：</th>
+                                <td><input id="" type="file" name="file"></td>
+                            </tr>
+                            <tr>
+                                <th>状态：</th>
+                                <td>
+                                	<input type="radio" checked="checked" value="0" name="state"/>已审核
+
+                                	<input type="radio" value="1" name="state" />未审核
+                                </td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <input class="btn btn-primary btn6 mr10" value="发布" type="submit">
+                                    <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button">
+                                </td>
+                            </tr>
+                        </tbody></table>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>

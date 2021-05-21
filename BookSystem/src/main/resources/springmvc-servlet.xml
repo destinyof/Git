@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+	<!--扫描包，让包中的注解生效-->
+	<context:component-scan base-package="com.ck.controller"/>
+	<context:property-placeholder location="classpath:email.properties"/>
+	<!--处理springmvc中静态资源的访问问题-->
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven/>
+
+	<!--配置模板解析器-->
+	<bean id="thymeleaf"
+		  class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+		<!--指定前缀-->
+		<property name="prefix" value="/WEB-INF/Templents/"/>
+		<!--指定后缀-->
+		<property name="suffix" value=".html"/>
+		<!--指定基于哪个模板，这里指定为H5-->
+		<property name="templateMode" value="HTML5"/>
+		<!--指定编码格式给utf-8-->
+		<property name="characterEncoding" value="UTF-8"/>
+	</bean>
+
+	<!--配置thymeleaf的模板引擎，解析thymeleaf中的特殊属性(?)-->
+	<bean id="engine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+		<!--注入模板解析器-->
+		<property name="templateResolver" ref="thymeleaf"/>
+	</bean>
+
+	<!--配置thymeleaf的视图解析器-->
+	<bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+		<!--注入模板引擎-->
+		<property name="templateEngine" ref="engine"/>
+		<!--指定编码格式给utf-8-->
+		<property name="characterEncoding" value="UTF-8"/>
+	</bean>
+
+		<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email_host}"/>
+			<property name="javaMailProperties">
+				<props>
+					<prop key="mail.smtp.auth">${email_auth}</prop>
+					<prop key="mail.smtp.timeout">${email_timeout}</prop>
+				</props>
+			</property>
+			<property name="username" value="${mail_username}"/>
+			<property name="password" value="${mail_password}"/>
+			<property name="defaultEncoding" value="UTF-8"/>
+		</bean>
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+</beans>

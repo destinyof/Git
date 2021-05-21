@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ck.dao.bookinfoDao">
+<resultMap id="infomap" type="com.ck.entity.BookInfo">
+    <association property="bookType" select="com.ck.dao.booktypeDao.querytypebyid" column="btid">
+    </association>
+</resultMap>
+    <select id="overqueryall" resultMap="infomap">
+        select * from bookinfo
+        <where>
+            <if test="tid!=0 and tid!=null">
+                and btid=#{tid}
+            </if>
+            <if test="bookname!=null and bookname!=''">
+            and bname like '%${bookname}%'
+            </if>
+        </where>
+    </select>
+
+    <delete id="deletebyid" parameterType="com.ck.entity.BookInfo">
+        delete from bookinfo where bid in
+        <foreach collection="array" item="id" close=")" open="(" separator=",">
+            #{id}
+        </foreach>
+
+    </delete>
+
+</mapper>
